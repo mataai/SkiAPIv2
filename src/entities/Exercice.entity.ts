@@ -6,11 +6,11 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Levels } from "./levels.entity";
+import { Level } from "./Level.entity";
 
 @Index("fkIdx_15", ["levelId"], {})
 @Entity("exercices", { schema: "ski" })
-export class Exercices {
+export class Exercice {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
@@ -26,10 +26,10 @@ export class Exercices {
   @Column("int", { name: "LevelID" })
   levelId: number;
 
-  @ManyToOne(() => Levels, (levels) => levels.exercices, {
+  @ManyToOne(() => Level, (levels) => levels.exercices, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
   @JoinColumn([{ name: "LevelID", referencedColumnName: "levelId" }])
-  level: Levels;
+  level: Level;
 }

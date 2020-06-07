@@ -3,17 +3,16 @@ import {
   Entity,
   Index,
   JoinColumn,
-  JoinTable,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Levels } from "./levels.entity";
-import { Student } from "./student.entity";
+import { Level } from "./Level.entity";
+import { StudentGroup } from "./StudentGroup.entity";
 
 @Index("FK_Groups_Levels_LevelID", ["levelId"], {})
 @Entity("groups", { schema: "ski" })
-export class Groups {
+export class Group {
   @PrimaryGeneratedColumn({ type: "int", name: "GroupID" })
   groupId: number;
 
@@ -26,12 +25,14 @@ export class Groups {
   @Column("time", { name: "Time" })
   time: string;
 
-  @ManyToOne(() => Levels, (levels) => levels.groups, {
+  @ManyToOne(() => Level, (levels) => levels.groups, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
-  @JoinColumn([{ name: "LevelID", referencedColumnName: "levelId" }])
-  level: Levels;
 
-  
+  @JoinColumn([{ name: "LevelID", referencedColumnName: "levelId" }])
+  level: Level;
+
+  @OneToMany(() => StudentGroup, (studentgroup) => studentgroup.group)
+  students: StudentGroup[];
 }

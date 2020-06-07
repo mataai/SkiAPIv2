@@ -1,5 +1,5 @@
-import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Groups } from "./groups.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { StudentGroup } from "./StudentGroup.entity";
 
 @Entity("student", { schema: "ski" })
 export class Student {
@@ -12,8 +12,6 @@ export class Student {
   @Column("varchar", { name: "FirstName", length: 45 })
   firstName: string;
 
-  @Column("varchar", { name: "Phone", length: 45 })
-  phone: string;
-
-
+  @OneToMany(() => StudentGroup, (studentgroup) => studentgroup.student)
+  studentgroups: StudentGroup[];
 }

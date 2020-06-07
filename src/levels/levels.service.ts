@@ -1,22 +1,21 @@
-
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Levels } from '../../entities/levels.entity';
+import { Level } from '../entities/Level.entity';
 
 @Injectable()
 export class LevelsService {
 
     constructor(
-        @InjectRepository(Levels)
-        private levelsRepository: Repository<Levels>,
+        @InjectRepository(Level)
+        private levelsRepository: Repository<Level>,
     ) { }
 
-    findAll(): Promise<Levels[]> {
+    findAll(): Promise<Level[]> {
         return this.levelsRepository.find();
     }
 
-    async findOne(id: string): Promise<Levels> {
+    async findOne(id: string): Promise<Level> {
         return this.levelsRepository.findOne({ where: { levelId: id }, relations: ["exercices"] });
     }
 
