@@ -1,34 +1,44 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
 import { Departement } from "./Departement.entity";
 import { User } from "./User.entity";
+import { DepartementRole } from "./DepartementRole.entity";
 
 @Index("fkIdx_72", ["departementId"], {})
 @Index("fkIdx_78", ["employeId"], {})
-@Entity("departementstaff", { schema: "ski" })
+@Index("FK_DepartementStaff_RoleID", ["roleId"], {})
+@Entity("DepartementStaff", { schema: "skiv2" })
 export class DepartementStaff {
   @Column("int", { primary: true, name: "EmployeID" })
   employeId: number;
 
-  @Column("int", { name: "permission" })
-  permission: number;
-
-  @Column("int", { primary: true, name: "departementID" })
+  @Column("int", { primary: true, name: "DepartementID" })
   departementId: number;
+
+  @Column("int", { name: "RoleID" })
+  roleId: number;
 
   @ManyToOne(
     () => Departement,
-    (departement) => departement.departementstaffs,
+    (departement) => departement.departementStaffs,
     { onDelete: "RESTRICT", onUpdate: "RESTRICT" }
   )
   @JoinColumn([
-    { name: "departementID", referencedColumnName: "departementId" },
+    { name: "DepartementID", referencedColumnName: "departementId" },
   ])
   departement: Departement;
 
-  @ManyToOne(() => User, (user) => user.departementstaffs, {
+  @ManyToOne(() => User, (user) => user.departementStaffs, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
   @JoinColumn([{ name: "EmployeID", referencedColumnName: "employeId" }])
   employe: User;
+
+  @ManyToOne(
+    () => DepartementRole,
+    (departementRole) => departementRole.departementStaffs,
+    { onDelete: "RESTRICT", onUpdate: "RESTRICT" }
+  )
+  @JoinColumn([{ name: "RoleID", referencedColumnName: "roleId" }])
+  role: DepartementRole;
 }

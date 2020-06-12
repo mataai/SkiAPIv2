@@ -9,7 +9,7 @@ import { Departement } from "./Departement.entity";
 import { Exercice } from "./Exercice.entity";
 import { Group } from "./Group.entity";
 
-@Entity("levels", { schema: "ski" })
+@Entity("Level", { schema: "skiv2" })
 export class Level {
   @PrimaryGeneratedColumn({ type: "int", name: "LevelID" })
   levelId: number;
@@ -18,14 +18,17 @@ export class Level {
   name: string;
 
   @Column("varchar", { name: "Description", nullable: true, length: 45 })
-  description: string | null;
+  description: string;
+
+  @Column("int", { name: "NextLevelID" })
+  nextLevelId: number;
 
   @ManyToMany(() => Departement, (departement) => departement.levels)
   departements: Departement[];
 
-  @OneToMany(() => Exercice, (exercices) => exercices.level)
+  @OneToMany(() => Exercice, (exercice) => exercice.level)
   exercices: Exercice[];
 
-  @OneToMany(() => Group, (groups) => groups.level)
+  @OneToMany(() => Group, (group) => group.level)
   groups: Group[];
 }

@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { ExerciceSummary } from "./ExerciceSummary";
+import { SommaireExercice } from "./SommaireExercice.entity";
 
-@Entity("levelsummary", { schema: "ski" })
-export class LevelSummary {
+@Entity("SommaireFinNiveau", { schema: "skiv2" })
+export class SommaireFinNiveau {
   @PrimaryGeneratedColumn({ type: "int", name: "SommaireID" })
   sommaireId: number;
 
@@ -19,8 +19,8 @@ export class LevelSummary {
   completionStatus: number;
 
   @OneToMany(
-    () => ExerciceSummary,
-    (exercicessummary) => exercicessummary.sommaire
+    () => SommaireExercice,
+    (sommaireExercice) => sommaireExercice.sommaire
   )
-  exercicessummaries: ExerciceSummary[];
+  sommaireExercices: SommaireExercice[];
 }

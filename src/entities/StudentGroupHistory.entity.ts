@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("studentgrouphistory", { schema: "ski" })
+@Entity("StudentGroupHistory", { schema: "skiv2" })
 export class StudentGroupHistory {
   @PrimaryGeneratedColumn({ type: "int", name: "HistoryID" })
   historyId: number;
@@ -15,7 +15,7 @@ export class StudentGroupHistory {
   oldStatus: number;
 
   @Column("int", { name: "NewStatus", nullable: true })
-  newStatus: number | null;
+  newStatus: number;
 
   @Column("int", { name: "EmployeID" })
   employeId: number;

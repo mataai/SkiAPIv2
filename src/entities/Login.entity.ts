@@ -9,7 +9,7 @@ import {
 import { User } from "./User.entity";
 
 @Index("fkIdx_125", ["employeId"], {})
-@Entity("logins", { schema: "ski" })
+@Entity("Login", { schema: "skiv2" })
 export class Login {
   @Column("int", { name: "EmployeID" })
   employeId: number;
@@ -20,7 +20,7 @@ export class Login {
   @PrimaryGeneratedColumn({ type: "int", name: "LoginID" })
   loginId: number;
 
-  @ManyToOne(() => User, (User) => User.logins, {
+  @ManyToOne(() => User, (user) => user.logins, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })

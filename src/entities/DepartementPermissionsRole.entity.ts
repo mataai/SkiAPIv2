@@ -1,6 +1,6 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("departementpermissionsrole", { schema: "ski" })
+@Entity("DepartementPermissionsRole", { schema: "skiv2" })
 export class DepartementPermissionsRole {
   @PrimaryGeneratedColumn({ type: "int", name: "PermissionRoleID" })
   permissionRoleId: number;

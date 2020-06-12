@@ -9,31 +9,31 @@ import {
 import { Level } from "./Level.entity";
 import { DepartementStaff } from "./DepartementStaff.entity";
 
-@Entity("departement", { schema: "ski" })
+@Entity("Departement", { schema: "skiv2" })
 export class Departement {
-  @PrimaryGeneratedColumn({ type: "int", name: "departementID" })
+  @PrimaryGeneratedColumn({ type: "int", name: "DepartementID" })
   departementId: number;
 
-  @Column("varchar", { name: "departementName", length: 45 })
+  @Column("varchar", { name: "DepartementName", length: 45 })
   departementName: string;
 
   @Column("int", { name: "LimiteEtudiantsGroupe" })
   limiteEtudiantsGroupe: number;
 
-  @ManyToMany(() => Level, (levels) => levels.departements)
+  @ManyToMany(() => Level, (level) => level.departements)
   @JoinTable({
-    name: "departementniveau",
+    name: "DepartementNiveau",
     joinColumns: [
       { name: "departementID", referencedColumnName: "departementId" },
     ],
     inverseJoinColumns: [{ name: "LevelID", referencedColumnName: "levelId" }],
-    schema: "ski",
+    schema: "skiv2",
   })
   levels: Level[];
 
   @OneToMany(
     () => DepartementStaff,
-    (departementstaff) => departementstaff.departement
+    (departementStaff) => departementStaff.departement
   )
-  departementstaffs: DepartementStaff[];
+  departementStaffs: DepartementStaff[];
 }

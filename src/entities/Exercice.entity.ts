@@ -9,7 +9,7 @@ import {
 import { Level } from "./Level.entity";
 
 @Index("fkIdx_15", ["levelId"], {})
-@Entity("exercices", { schema: "ski" })
+@Entity("Exercice", { schema: "skiv2" })
 export class Exercice {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
@@ -26,7 +26,7 @@ export class Exercice {
   @Column("int", { name: "LevelID" })
   levelId: number;
 
-  @ManyToOne(() => Level, (levels) => levels.exercices, {
+  @ManyToOne(() => Level, (level) => level.exercices, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })

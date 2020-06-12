@@ -1,9 +1,9 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { LevelSummary } from "./LevelSummary.entity";
+import { SommaireFinNiveau } from "./SommaireFinNiveau.entity";
 
 @Index("fkIdx_119", ["sommaireId"], {})
-@Entity("exercicessummary", { schema: "ski" })
-export class ExerciceSummary {
+@Entity("SommaireExercice", { schema: "skiv2" })
+export class SommaireExercice {
   @Column("int", { primary: true, name: "SommaireID" })
   sommaireId: number;
 
@@ -14,10 +14,10 @@ export class ExerciceSummary {
   completionStatus: number;
 
   @ManyToOne(
-    () => LevelSummary,
-    (levelsummary) => levelsummary.exercicessummaries,
+    () => SommaireFinNiveau,
+    (sommaireFinNiveau) => sommaireFinNiveau.sommaireExercices,
     { onDelete: "RESTRICT", onUpdate: "RESTRICT" }
   )
   @JoinColumn([{ name: "SommaireID", referencedColumnName: "sommaireId" }])
-  sommaire: LevelSummary;
+  sommaire: SommaireFinNiveau;
 }

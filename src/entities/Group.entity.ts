@@ -11,7 +11,7 @@ import { Level } from "./Level.entity";
 import { StudentGroup } from "./StudentGroup.entity";
 
 @Index("FK_Groups_Levels_LevelID", ["levelId"], {})
-@Entity("groups", { schema: "ski" })
+@Entity("Group", { schema: "skiv2" })
 export class Group {
   @PrimaryGeneratedColumn({ type: "int", name: "GroupID" })
   groupId: number;
@@ -25,14 +25,30 @@ export class Group {
   @Column("time", { name: "Time" })
   time: string;
 
-  @ManyToOne(() => Level, (levels) => levels.groups, {
+  @Column("int", { name: "Day" })
+  day: number;
+
+  @Column("varchar", {
+    name: "TeacherName",
+    nullable: true,
+    length: 50,
+    default: () => "' '",
+  })
+  teacherName: string;
+
+  @Column("int", { name: "NbStudents", default: () => "'0'" })
+  nbStudents: number;
+
+  @Column("int", { name: "DepartementID" })
+  departementId: number;
+
+  @ManyToOne(() => Level, (level) => level.groups, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
-
   @JoinColumn([{ name: "LevelID", referencedColumnName: "levelId" }])
   level: Level;
 
-  @OneToMany(() => StudentGroup, (studentgroup) => studentgroup.group)
-  students: StudentGroup[];
+  @OneToMany(() => StudentGroup, (studentGroup) => studentGroup.group)
+  studentGroups: StudentGroup[];
 }

@@ -2,15 +2,15 @@ import { Column, Entity, OneToMany } from "typeorm";
 import { DepartementStaff } from "./DepartementStaff.entity";
 import { Login } from "./Login.entity";
 
-@Entity("users", { schema: "ski" })
+@Entity("User", { schema: "skiv2" })
 export class User {
   @Column("int", { primary: true, name: "EmployeID" })
   employeId: number;
 
-  @Column("varchar", { name: "firstName", length: 45 })
+  @Column("varchar", { name: "FirstName", length: 45 })
   firstName: string;
 
-  @Column("varchar", { name: "lastName", length: 45 })
+  @Column("varchar", { name: "LastName", length: 45 })
   lastName: string;
 
   @Column("varchar", { name: "Password", length: 255 })
@@ -18,10 +18,10 @@ export class User {
 
   @OneToMany(
     () => DepartementStaff,
-    (departementstaff) => departementstaff.employe
+    (departementStaff) => departementStaff.employe
   )
-  departementstaffs: DepartementStaff[];
+  departementStaffs: DepartementStaff[];
 
-  @OneToMany(() => Login, (logins) => logins.employe)
+  @OneToMany(() => Login, (login) => login.employe)
   logins: Login[];
 }
