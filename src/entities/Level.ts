@@ -5,11 +5,11 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Departement } from "./Departement.entity";
-import { Exercice } from "./Exercice.entity";
-import { Group } from "./Group.entity";
+import { Departement } from "./Departement";
+import { Exercice } from "./Exercice";
+import { Group } from "./Group";
 
-@Entity("Level", { schema: "skiv2" })
+@Entity("level", { schema: "ski" })
 export class Level {
   @PrimaryGeneratedColumn({ type: "int", name: "LevelID" })
   levelId: number;
@@ -18,7 +18,7 @@ export class Level {
   name: string;
 
   @Column("varchar", { name: "Description", nullable: true, length: 45 })
-  description: string;
+  description: string | null;
 
   @Column("int", { name: "NextLevelID" })
   nextLevelId: number;

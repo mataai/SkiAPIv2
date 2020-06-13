@@ -5,13 +5,13 @@ import { GroupService } from './group.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 
-import { Group } from 'src/entities/Group.entity';
-import { StudentGroup } from 'src/entities/StudentGroup.entity';
-import { Departement } from 'src/entities/Departement.entity';
+import { Group } from 'src/entities/Group';
+import { Studentgroup } from 'src/entities/Studentgroup';
+import { Departement } from 'src/entities/Departement';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Group,StudentGroup]),
+    TypeOrmModule.forFeature([Group,Studentgroup]),
   ],
   controllers: [GroupController],
   providers: [GroupService]

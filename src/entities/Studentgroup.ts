@@ -1,11 +1,11 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { Group } from "./Group.entity";
-import { Student } from "./Student.entity";
+import { Group } from "./Group";
+import { Student } from "./Student";
 
-@Index("fkIdx_43", ["groupId"], {})
-@Index("fkIdx_46", ["studentId"], {})
-@Entity("StudentGroup", { schema: "skiv2" })
-export class StudentGroup {
+@Index("FkIdx_StudentGroup_GroupID", ["groupId"], {})
+@Index("FkIdx_StudentGroup_StudentID", ["studentId"], {})
+@Entity("studentgroup", { schema: "ski" })
+export class Studentgroup {
   @Column("int", { primary: true, name: "GroupID" })
   groupId: number;
 
@@ -16,16 +16,16 @@ export class StudentGroup {
   status: number;
 
   @Column("varchar", { name: "Special", nullable: true, length: 255 })
-  special: string;
+  special: string | null;
 
-  @ManyToOne(() => Group, (group) => group.studentGroups, {
+  @ManyToOne(() => Group, (group) => group.studentgroups, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
   @JoinColumn([{ name: "GroupID", referencedColumnName: "groupId" }])
   group: Group;
 
-  @ManyToOne(() => Student, (student) => student.studentGroups, {
+  @ManyToOne(() => Student, (student) => student.studentgroups, {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })

@@ -1,6 +1,6 @@
 import { Controller, Get, Param } from '@nestjs/common';
 import { LevelsService } from './levels.service';
-import { Level } from '../entities/Level.entity';
+import { Level } from '../entities/Level';
 
 @Controller('levels')
 export class LevelsController {

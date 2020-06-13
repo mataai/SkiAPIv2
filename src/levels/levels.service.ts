@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Level } from '../entities/Level.entity';
+import { Level } from '../entities/Level';
 
 @Injectable()
 export class LevelsService {

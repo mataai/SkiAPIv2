@@ -1,7 +1,7 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity("StudentGroupHistoryOld", { schema: "skiv2" })
-export class StudentGroupHistoryOld {
+@Entity("studentgrouphistoryold", { schema: "ski" })
+export class Studentgrouphistoryold {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 

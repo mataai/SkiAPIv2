@@ -6,13 +6,13 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { User } from "./User.entity";
+import { User } from "./User";
 
-@Index("fkIdx_125", ["employeId"], {})
-@Entity("Login", { schema: "skiv2" })
+@Index("FkIdx_Login_UserID", ["userId"], {})
+@Entity("login", { schema: "ski" })
 export class Login {
-  @Column("int", { name: "EmployeID" })
-  employeId: number;
+  @Column("int", { name: "UserID" })
+  userId: number;
 
   @Column("varchar", { name: "Token", length: 36 })
   token: string;
@@ -24,6 +24,6 @@ export class Login {
     onDelete: "RESTRICT",
     onUpdate: "RESTRICT",
   })
-  @JoinColumn([{ name: "EmployeID", referencedColumnName: "employeId" }])
-  employe: User;
+  @JoinColumn([{ name: "UserID", referencedColumnName: "userId" }])
+  user: User;
 }

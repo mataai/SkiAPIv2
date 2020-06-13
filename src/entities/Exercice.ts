@@ -6,10 +6,10 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Level } from "./Level.entity";
+import { Level } from "./Level";
 
-@Index("fkIdx_15", ["levelId"], {})
-@Entity("Exercice", { schema: "skiv2" })
+@Index("FkIdx_Exercice_LevelID", ["levelId"], {})
+@Entity("exercice", { schema: "ski" })
 export class Exercice {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
