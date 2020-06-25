@@ -19,7 +19,11 @@ export class LevelsService {
         return this.levelsRepository.findOne({ where: { levelId: id }, relations: ["exercices"] });
     }
 
-    async remove(id: string): Promise<void> {
-        await this.levelsRepository.delete(id);
+    async getNextLevel(ID: number): Promise<number> {
+        return (await this.levelsRepository.findOne({ where: { levelId: ID } })).nextLevelId
+    }
+
+    async getPrevLevel(ID: number): Promise<number> {
+        return (await this.levelsRepository.findOne({ where: { nextLevelIdr: ID } })).levelId
     }
 }

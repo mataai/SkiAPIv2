@@ -20,6 +20,9 @@ import { Departementpermissionrole } from './entities/Departementpermissionrole'
 import { Departementstaff } from './entities/Departementstaff';
 import { Login } from './entities/Login';
 import { Departementrole } from './entities/Departementrole';
+import { DepartementModule } from './departement/departement.module';
+import { DepartementService } from './departement/departement.service';
+import { GroupService } from './groups/group.service';
 
 
 @Module({
@@ -31,16 +34,17 @@ import { Departementrole } from './entities/Departementrole';
       username: 'root',
       password: '',
       database: 'ski',
-      entities: [Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff,Departementrole, Login],
+      entities: [Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff, Departementrole, Login],
       synchronize: true,
     }),
     LevelsModule,
     AuthModule,
     UsersModule,
-    TypeOrmModule.forFeature([Group]),
-    GroupsModule
+    TypeOrmModule.forFeature([Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff, Departementrole, Login]),
+    GroupsModule,
+    DepartementModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DepartementService, GroupService],
 })
 export class AppModule { }

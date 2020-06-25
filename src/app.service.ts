@@ -15,8 +15,5 @@ export class AppService {
   getHello(): string {
     return 'Hello Bro!';
   }
-
-  test() {
-    return this.usersRepository.find();
-  }
+  
 }

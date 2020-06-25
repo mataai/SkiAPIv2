@@ -4,9 +4,12 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { Level } from 'src/entities/Level';
 import { User } from 'src/entities/User';
+import { Departementstaff } from 'src/entities/Departementstaff';
+import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
+import { Departementpermission } from 'src/entities/Departementpermission';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Level, User])],
+  imports: [TypeOrmModule.forFeature([Level, User, Departementstaff, Departementpermissionrole, Departementpermission])],
   providers: [UsersService],
   exports: [UsersService],
 })

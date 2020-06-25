@@ -1,17 +1,25 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
+import { User } from 'src/entities/User';
+import { Repository } from 'typeorm';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Departementstaff } from 'src/entities/Departementstaff';
+import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
+import { Departementpermission } from 'src/entities/Departementpermission';
 
 @Injectable()
 export class AuthService {
     constructor(
-        private usersService: UsersService,
+        @InjectRepository(User)
+        private usersRepository: Repository<User>,
+        @InjectRepository(User)
+        private UserRepo: Repository<User>,
         private jwtService: JwtService) { }
 
     async validateUser(ID: string, pass: string): Promise<any> {
-        const user = await this.usersService.findOne(ID);
+        const user = await this.UserRepo.findOne({ where: { userId: ID } });
         if (user && user.password === pass) {
             const { password, ...result } = user;
             return result;
@@ -26,9 +34,5 @@ export class AuthService {
         };
     }
 
-
-    async checkPerms(){
-        
-    }
 
 }
