@@ -28,14 +28,10 @@ export class UsersService {
     }
 
     async findOne(ID: string): Promise<User | undefined> {
+
         return this.usersRepository.findOne({ where: { userId: parseInt(ID) } });
     }
 
-
-    async getPerms(userID: number, deptID: number) {
-        const roleID = (await this.StaffRepo.findOne({ where: { userId: userID } })).roleId;
-        return await this.PermissionroleRepo.find({ where: { roleId: roleID, departementId: deptID }, relations: ["permission"] });
-    }
 
 
 }

@@ -1,7 +1,7 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import { Departementpermissionrole } from "./Departementpermissionrole";
 
-@Entity("departementpermission", { schema: "ski" })
+@Entity("DepartementPermission", { schema: "ski" })
 export class Departementpermission {
   @PrimaryGeneratedColumn({ type: "int", name: "PermissionID" })
   permissionId: number;

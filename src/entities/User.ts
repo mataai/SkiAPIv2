@@ -3,7 +3,7 @@ import { Departementstaff } from "./Departementstaff";
 import { Group } from "./Group";
 import { Login } from "./Login";
 
-@Entity("user", { schema: "ski" })
+@Entity("User", { schema: "ski" })
 export class User {
   @Column("int", { primary: true, name: "UserID" })
   userId: number;

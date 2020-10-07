@@ -19,13 +19,13 @@ export class AppController {
     private deptService: DepartementService) { }
 
   @Get()
-  getHello(): string {
-    return this.appService.getHello();
+  getHello() {
+    return this.groupService.getGroupsByLevel(1, 114627);
   }
 
   @Get("test")
   test() {
-    return this.groupService.getGroupsByDepart(1, 114627);
+    return this.groupService.getAll(114627);
     // return this.authService.getPerms(114627,1);
   }
 

@@ -10,7 +10,7 @@ import { Departement } from "./Departement";
 import { Exercice } from "./Exercice";
 import { Group } from "./Group";
 
-@Entity("level", { schema: "ski" })
+@Entity("Level", { schema: "ski" })
 export class Level {
   @PrimaryGeneratedColumn({ type: "int", name: "LevelID" })
   levelId: number;
@@ -26,7 +26,7 @@ export class Level {
 
   @ManyToMany(() => Departement, (departement) => departement.levels)
   @JoinTable({
-    name: "departementniveau",
+    name: "DepartementLevel",
     joinColumns: [{ name: "LevelID", referencedColumnName: "levelId" }],
     inverseJoinColumns: [
       { name: "DepartementID", referencedColumnName: "departementId" },

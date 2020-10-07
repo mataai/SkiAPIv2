@@ -14,12 +14,18 @@ import { Departementstaff } from 'src/entities/Departementstaff';
 import { Departementpermission } from 'src/entities/Departementpermission';
 import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
 import { UsersService } from 'src/users/users.service';
+import { PermissionsModule } from 'src/permissions/permissions.module';
+import { PermissionsService } from 'src/permissions/permissions.service';
+import { DepartementService } from 'src/departement/departement.service';
+import { LevelsService } from 'src/levels/levels.service';
+import { Level } from 'src/entities/Level';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Departementstaff, Departementpermissionrole, Departementpermission, Group, Studentgroup, Departement]),
+    TypeOrmModule.forFeature([User, Level, Departementstaff, Departementpermissionrole, Departementpermission, Group, Studentgroup, Departement]),
+    PermissionsModule
   ],
   controllers: [GroupController],
-  providers: [GroupService, UsersService]
+  providers: [GroupService, UsersService, PermissionsService, DepartementService, LevelsService]
 })
 export class GroupsModule { }

@@ -3,10 +3,10 @@ import { Departementrole } from "./Departementrole";
 import { Departement } from "./Departement";
 import { User } from "./User";
 
-@Index("FK_DepartementStaff_DepartementID", ["departementId"], {})
-@Index("FK_DepartementStaff_UserID", ["userId"], {})
-@Index("FK_DepartementStaff_RoleID", ["roleId"], {})
-@Entity("departementstaff", { schema: "ski" })
+@Index("IXFK_DepartementStaff_DepartementID", ["departementId"], {})
+@Index("IXFK_DepartementStaff_UserID", ["userId"], {})
+@Index("IXFK_DepartementStaff_RoleID", ["roleId"], {})
+@Entity("DepartementStaff", { schema: "ski" })
 export class Departementstaff {
   @Column("int", { primary: true, name: "UserID" })
   userId: number;

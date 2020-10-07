@@ -9,7 +9,7 @@ import {
 import { Level } from "./Level";
 
 @Index("FkIdx_Exercice_LevelID", ["levelId"], {})
-@Entity("exercice", { schema: "ski" })
+@Entity("Exercice", { schema: "ski" })
 export class Exercice {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;

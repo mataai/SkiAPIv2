@@ -10,7 +10,7 @@ import { Departementpermissionrole } from "./Departementpermissionrole";
 import { Departementstaff } from "./Departementstaff";
 import { Group } from "./Group";
 
-@Entity("departement", { schema: "ski" })
+@Entity("Departement", { schema: "ski" })
 export class Departement {
   @PrimaryGeneratedColumn({ type: "int", name: "DepartementID" })
   departementId: number;

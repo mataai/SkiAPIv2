@@ -12,10 +12,10 @@ import { Level } from "./Level";
 import { User } from "./User";
 import { Studentgroup } from "./Studentgroup";
 
-@Index("FK_Groups_Levels_LevelID", ["levelId"], {})
+@Index("IXFK_Groups_Levels_LevelID", ["levelId"], {})
 @Index("FK_Groups_Departement_DepartementID", ["departementId"], {})
 @Index("FK_Group_User_UserID", ["teacherId"], {})
-@Entity("group", { schema: "ski" })
+@Entity("Group", { schema: "ski" })
 export class Group {
   @PrimaryGeneratedColumn({ type: "int", name: "GroupID" })
   groupId: number;

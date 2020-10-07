@@ -21,7 +21,7 @@ import { Departementpermission } from "./Departementpermission";
   {}
 )
 @Index("FK_Departement_PermissionRole_DepartementRole_RoleID", ["roleId"], {})
-@Entity("departementpermissionrole", { schema: "ski" })
+@Entity("DepartementPermissionRole", { schema: "ski" })
 export class Departementpermissionrole {
   @PrimaryGeneratedColumn({ type: "int", name: "PermissionRoleID" })
   permissionRoleId: number;

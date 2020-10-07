@@ -10,12 +10,8 @@ import { Level } from 'src/entities/Level';
 export class DepartementService {
 
     constructor(
-        @InjectRepository(Group)
-        private groupsRepository: Repository<Group>,
         @InjectRepository(Departement)
-        private departRepository: Repository<Departement>,
-        @InjectRepository(Level)
-        private levelsRepository: Repository<Level>,
+        private departRepository: Repository<Departement>
     ) { }
 
     async getNextDept(deptID: number) {
@@ -24,7 +20,16 @@ export class DepartementService {
         depts.forEach(element => {
             levels.push(element.departementId);
         });
-        let level = await this.levelsRepository.find({ where: { nextLevelId: In(levels) } })
         return this.departRepository.find({ where: { levels: In(levels) } })
     }
+
+
+    getAll(deptId: number): Promise<Departement> {
+        return this.departRepository.findOne({ where: { departementId: deptId } });
+    }
+
+    getById(deptId: number): Promise<Departement> {
+        return this.departRepository.findOne({ where: { departementId: deptId }, relations: ["levels", "departementpermissionroles", "departementstaffs", "groups"] });
+    }
+
 }

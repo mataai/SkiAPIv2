@@ -4,7 +4,7 @@ import { Group } from "./Group";
 
 @Index("FkIdx_StudentGroup_GroupID", ["groupId"], {})
 @Index("FkIdx_StudentGroup_StudentID", ["studentId"], {})
-@Entity("studentgroup", { schema: "ski" })
+@Entity("StudentGroup", { schema: "ski" })
 export class Studentgroup {
   @Column("int", { primary: true, name: "GroupID" })
   groupId: number;

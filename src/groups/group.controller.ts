@@ -14,7 +14,7 @@ export class GroupController {
     @UseGuards(JwtAuthGuard)
     @Get()
     GetAll(): Promise<Group[]> {
-        return this.groupService.getAll()
+        return this.groupService.getAll(114627)
     }
 
     @UseGuards(JwtAuthGuard)

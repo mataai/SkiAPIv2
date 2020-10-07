@@ -5,7 +5,6 @@ import { Level } from '../entities/Level';
 @Controller('levels')
 export class LevelsController {
 
-
     constructor(private levelsService: LevelsService) { }
 
     @Get()
@@ -14,7 +13,7 @@ export class LevelsController {
     }
 
     @Get(':id')
-    GetOne(@Param() params): Promise<Level> {
+    GetOne(@Param() params: { id: number }): Promise<Level> {
         return this.levelsService.findOne(params.id);
     }
 }

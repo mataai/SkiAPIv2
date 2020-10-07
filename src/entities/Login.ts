@@ -9,7 +9,7 @@ import {
 import { User } from "./User";
 
 @Index("FkIdx_Login_UserID", ["userId"], {})
-@Entity("login", { schema: "ski" })
+@Entity("Login", { schema: "ski" })
 export class Login {
   @Column("int", { name: "UserID" })
   userId: number;

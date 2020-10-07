@@ -23,28 +23,34 @@ import { Departementrole } from './entities/Departementrole';
 import { DepartementModule } from './departement/departement.module';
 import { DepartementService } from './departement/departement.service';
 import { GroupService } from './groups/group.service';
+import { StudentGroupHistory } from './entities/Studentgrouphistory';
+import { Studentstatus } from './entities/Studentstatus';
+import { PermissionsModule } from './permissions/permissions.module';
+import { PermissionsService } from './permissions/permissions.service';
+import { LevelsService } from './levels/levels.service';
 
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'localhost',
+      host: 'web.martin',
       port: 3306,
-      username: 'root',
-      password: '',
-      database: 'ski',
-      entities: [Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff, Departementrole, Login],
+      username: 'user',
+      password: 'passw0rd',
+      database: 'skiv2',
+      entities: [Studentstatus, StudentGroupHistory, Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff, Departementrole, Login],
       synchronize: true,
     }),
     LevelsModule,
     AuthModule,
     UsersModule,
-    TypeOrmModule.forFeature([Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff, Departementrole, Login]),
+    TypeOrmModule.forFeature([Studentstatus, StudentGroupHistory, Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff, Departementrole, Login]),
     GroupsModule,
-    DepartementModule
+    DepartementModule,
+    PermissionsModule
   ],
   controllers: [AppController],
-  providers: [AppService, DepartementService, GroupService],
+  providers: [AppService, LevelsService, DepartementService, GroupService, PermissionsService],
 })
 export class AppModule { }
