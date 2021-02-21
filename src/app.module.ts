@@ -28,6 +28,9 @@ import { Studentstatus } from './entities/Studentstatus';
 import { PermissionsModule } from './permissions/permissions.module';
 import { PermissionsService } from './permissions/permissions.service';
 import { LevelsService } from './levels/levels.service';
+import { StudentsController } from './students/students.controller';
+import { StudentsModule } from './students/students.module';
+import { StudentsService } from './students/students.service';
 
 
 @Module({
@@ -48,9 +51,10 @@ import { LevelsService } from './levels/levels.service';
     TypeOrmModule.forFeature([Studentstatus, StudentGroupHistory, Exercice, Level, Group, Student, Studentgroup, User, Departement, Departementpermission, Departementpermissionrole, Departementstaff, Departementrole, Login]),
     GroupsModule,
     DepartementModule,
-    PermissionsModule
+    PermissionsModule,
+    StudentsModule
   ],
-  controllers: [AppController],
-  providers: [AppService, LevelsService, DepartementService, GroupService, PermissionsService],
+  controllers: [AppController, StudentsController],
+  providers: [StudentsService, AppService, LevelsService, DepartementService, GroupService, PermissionsService],
 })
 export class AppModule { }

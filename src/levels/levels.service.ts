@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { Level } from '../entities/Level';
+import { Level } from 'src/entities/Level';
 
 @Injectable()
 export class LevelsService {
@@ -19,7 +19,7 @@ export class LevelsService {
         return this.levelsRepository.findOne({ where: { levelId: id }, relations: ["exercices"] });
     }
 
-    async findMany(levelIds: number[]) {
+    async findMany(levelIds: number[]):Promise<Level[]> {
         return this.levelsRepository.find({ where: { levelId: In(levelIds) } })
     }
 
@@ -32,6 +32,6 @@ export class LevelsService {
     }
 
     async getDepts(levelId: number) {
-        return (await this.levelsRepository.findOne({ where: { levelId: levelId },relations: ["departements"] })).departements;
+        return (await this.levelsRepository.findOne({ where: { levelId: levelId }, relations: ["departements"] })).departements;
     }
 }

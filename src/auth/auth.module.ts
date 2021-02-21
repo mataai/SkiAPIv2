@@ -1,7 +1,6 @@
 
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { LocalStrategy } from './local.strategy';
 import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
@@ -16,7 +15,7 @@ import { Departementpermission } from 'src/entities/Departementpermission';
 import { Departementrole } from 'src/entities/Departementrole';
 import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
 import { UsersService } from 'src/users/users.service';
-import { LocalAuthGuard } from './local-auth.guard';
+import { PermissionsService } from 'src/permissions/permissions.service';
 
 @Module({
   imports: [
@@ -27,7 +26,7 @@ import { LocalAuthGuard } from './local-auth.guard';
       signOptions: { expiresIn: jwtConstants.duration },
     }),
   ],
-  providers: [AuthService, UsersService, LocalStrategy, JwtStrategy, LocalAuthGuard],
+  providers: [AuthService, UsersService, JwtStrategy, PermissionsService],
   exports: [AuthService],
   controllers: [AuthController],
 })

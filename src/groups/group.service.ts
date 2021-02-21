@@ -1,15 +1,11 @@
-import { Injectable } from '@nestjs/common';
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Group } from 'src/entities/Group';
-import { Repository, In } from 'typeorm';
+import { In, Repository } from 'typeorm';
 
-import { UsersService } from 'src/users/users.service';
-import { promises } from 'dns';
 import { PermissionsService } from 'src/permissions/permissions.service';
-import { DepartementService } from 'src/departement/departement.service';
 import { LevelsService } from 'src/levels/levels.service';
-import { Departement } from 'modelGen/output/entities/Departement';
-import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
 
 @Injectable()
 export class GroupService {
@@ -17,74 +13,175 @@ export class GroupService {
     constructor(
         @InjectRepository(Group)
         private groupsRepository: Repository<Group>,
-        private userService: UsersService,
         private permsService: PermissionsService,
-        private departementService: DepartementService,
         private levelService: LevelsService) { }
 
 
-    async getAll(userID: number): Promise<Group[]> {
+    async getByID(userID: number, groupID: number): Promise<Group> {
+
+        if (!groupID) {
+            return;
+        }
         const perms = await this.permsService.getPerms(userID);
-        console.log('perms :>> ', perms);
-        let output: Group[] = [];
-        if (this.permsService.isAdmin(userID)) {
-            output.concat(await this.groupsRepository.find());
+        let output: Group;
+
+        if (await this.permsService.isAdmin(userID)) {
+
+            console.log("admin");
+            output = await this.groupsRepository.findOne({ where: { groupId: groupID }, relations: ["teacher", "studentgroups", "studentgroups.student"] });
         }
-        if (perms.find(x => x.permissionId == 1)) { // View Grp Self
-            const perm = perms.find(x => x.permissionId == 1)
-            output = await this.groupsRepository.find({ where: { teacherId: userID } });
+        else if (await perms.find(x => x.permissionId == 2)) { //View Grp Dept
+
+            const perm = perms.filter(x => x.permissionId == 2)
+            output = await this.groupsRepository.findOne({ where: { departementId: In(perm.map(x => x.departementId)), groupId: groupID }, relations: ["teacher", "studentgroups", "studentgroups.student"] });
         }
-        if (perms.find(x => x.permissionId == 2)) { //View Grp Dept
-            const perm = perms.find(x => x.permissionId == 2)
-            output = await this.groupsRepository.find({ where: { departementId: perm.departementId } });
+        else if (await perms.find(x => x.permissionId == 1)) { // View Grp Self
+            output = await this.groupsRepository.findOne({ where: { teacherId: userID, groupId: groupID }, relations: ["teacher", "studentgroups", "studentgroups.student"] });
         }
+        if (!output)
+            throw new UnauthorizedException;
+        delete output.teacher.password;
         return output;
     }
 
-    async getGroupsByDepart(deptID: number, userID: number): Promise<Group[]> {
-
-        const perms = await this.permsService.getPermsByDept(userID, deptID);
-        console.log(perms.find(x => x.permissionId == 2));
+    async getAll(userID: number, query?: any): Promise<Group[]> {//todo: must add to list not overwrite what has been added before.
+        const perms = await this.permsService.getPerms(userID);
         let output: Group[] = [];
+        if (await this.permsService.isAdmin(userID)) {
+            output = await this.groupsRepository.find();
+        } else {
+            const perms1 = perms.filter(x => x.permissionId == 1);
+            const perms2 = await perms.filter(x => x.permissionId == 2);
+            if (perms2) { //View Grp Dept
+                const depts = perms2.map(x => x.departementId)
+                this.addToList(output, await this.groupsRepository.find({ where: { departementId: In(depts) } }));
+            }
+            if (perms1) { // View Grp Self
+                const depts = perms1.map(x => x.departementId)
+                this.addToList(output, await this.groupsRepository.find({ where: { teacherId: userID, departementId: In(depts) } }));
+            }
+        }
+        
+        if (!query.level && !query.dept && !query.prof && !query.day && !query.time && !query.nbStudents)
+            return output;
 
-        if (perms.find(x => x.permissionId == 1)) { // View Grp Self
-            output = await this.groupsRepository.find({ where: { teacherId: userID, departementId: deptID } });
-        }
-        if (perms.find(x => x.permissionId == 2)) { //View Grp Dept
-            output = await this.groupsRepository.find({ where: { departementId: deptID } });
-        }
-        return output;
+
+        return output.filter(x =>
+            (!query.level || x.levelId == query.level) &&
+            (!query.dept || x.departementId == query.dept) &&
+            (!query.prof || x.teacherId == query.prof) &&
+            (!query.day || x.day == query.day) &&
+            (!query.time || x.time == query.time) &&
+            (!query.nbStudents || x.nbStudents == query.nbStudents)
+        )
     }
 
-    async getGroupsByLevel(levelID: number, userID: number): Promise<Group[]> {
+    async getGroupsByDepart(userID: number, deptID: number): Promise<Group[]> {
 
-        const depts = await this.levelService.getDepts(levelID);
-        let perms: Departementpermissionrole[] = []
-
-        for (const item of depts) {
-            const tmp = await this.permsService.getPermsByDept(userID, item.departementId);
-            perms = perms.concat(tmp);
+        if (await this.permsService.isAdmin(userID)) {
+            return await this.groupsRepository.find({ where: { departementId: deptID } });
         }
+        else {
+            const perms = await this.permsService.getPermsByDept(userID, deptID);
+            if (perms.filter(x => x.permissionId == 2 && x.departementId == deptID)) { //View Grp Dept
+                console.log("View Grp Dept");
 
-        let output: Group[] = [];
-
-        if (this.permsService.isAdmin(userID)) {
-
-        }
-        const perms1 = perms.filter(x => x.permissionId == 1);
-        console.log(perms);
-        if (perms1.length > 0) {
-            for (const element of perms1) {// View Grp Self
-                output = await this.groupsRepository.find({ where: { teacherId: userID, levelId: levelID, departementId: element.departementId } });
+                return await this.groupsRepository.find({ where: { departementId: deptID } });
+            }
+            else if (perms.filter(x => x.permissionId == 1 && x.departementId == deptID)) { // View Grp Self
+                console.log("View Grp Self");
+                return await this.groupsRepository.find({ where: { teacherId: userID, departementId: deptID } });
             }
         }
+        return [];
+    }
 
-        const perms2 = perms.filter(x => x.permissionId == 2);
-        if (perms2.length > 0) { //View Grp Dept
-            for (const element of perms1) {// View Grp Self
-                output = await this.groupsRepository.find({ where: { levelId: levelID, departementId: element.departementId } });
+    async getGroupsByLevel(userID: number, levelID: number): Promise<Group[]> {
+
+        let output: Group[] = []
+        output = []
+        if (await this.permsService.isAdmin(userID)) {
+            console.log("admin");
+
+            return await this.groupsRepository.find({ where: { levelId: levelID } });
+        }
+        else {
+            const depts = await this.levelService.getDepts(levelID);
+            for (const key of depts) {
+                const deptID = key.departementId
+                const perms = await this.permsService.getPermsByDept(userID, deptID);
+                if (perms.filter(x => x.permissionId == 2 && x.departementId == deptID).length > 0) {
+                    this.addToList(output, await this.groupsRepository.find({ where: { departementId: deptID, levelId: levelID } }));
+                }
+                else if (perms.filter(x => x.permissionId == 1 && x.departementId == deptID).length > 0) { // View Grp Self
+                    this.addToList(output, await this.groupsRepository.find({ where: { teacherId: userID, levelId: levelID } }));
+                }
             }
         }
         return output;
+
+
+        //#region idk
+        // if (await this.permsService.isAdmin(userID)) {
+        //     console.log("Admin");
+        //     console.log(userID);
+        //     console.log(this.permsService.isAdmin(userID));
+
+
+        //     const output = await this.groupsRepository.find({ where: { levelId: levelID }, relations: ["teacher"] });
+        //     output.map(x => delete x.teacher.password);
+        //     return output;
+        // }
+        // console.log();
+
+        // const depts = await this.levelService.getDepts(levelID);
+        // let perms: Departementpermissionrole[] = []
+
+        // for (const item of depts) {
+        //     const tmp = await this.permsService.getPermsByDept(userID, item.departementId);
+        //     perms = perms.concat(tmp);
+        // }
+
+        // let output: Group[] = [];
+        // console.log(perms);
+
+        // if (perms.filter(x => x.permissionId == 1)) { //View Grp Self
+        //     console.log("View Grp Self");
+        //     console.log(userID + " " + levelID + " ");
+
+        //     output = await this.groupsRepository.find({ where: { teacherId: userID, levelId: levelID, departementId: In(perms.map(x => x.departementId && x.permissionId == 1)) }, relations: ["teacher"] });//todo: must add to list not overwrite what has been added before
+        //     console.log("ok");
+
+        // }
+
+        // if (perms.filter(x => x.permissionId == 2)) { //View Grp Dept
+        //     console.log("View Grp Dept");
+        //     this.addToList(output, await this.groupsRepository.find({ where: { levelId: levelID, departementId: In(perms.map(x => x.departementId && x.permissionId == 2)) }, relations: ["teacher"] }));
+        // }
+
+        // output.map(x => delete x.teacher.password);
+
+        // return output;
+        //#endregion
+    }
+
+    /**
+     * Adds list B to list A (Checks if group already in list)
+     * @param lista 
+     * @param listb 
+     */
+    addToList(lista: Group[], listb: Group[]): Group[] {
+        for (const elementb of listb) {
+            let inlist = false;
+            for (const elementa of lista) {
+                if (elementb.groupId == elementa.groupId) {
+                    inlist = true;
+                    break;
+                }
+            }
+            if (!inlist)
+                lista.push(elementb);
+        }
+        return lista;
     }
 }

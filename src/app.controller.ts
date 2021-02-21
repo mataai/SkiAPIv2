@@ -1,38 +1,53 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Controller, Get, UseGuards, Post, Request, Param } from '@nestjs/common';
+import { Controller, Get, UseGuards, Req, Param, Put } from '@nestjs/common';
 import { AppService } from './app.service';
 
-import { AuthService } from './auth/auth.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
-import { UsersService } from './users/users.service';
-import { DepartementService } from './departement/departement.service';
 import { GroupService } from './groups/group.service';
+import { ExtractJwt } from 'passport-jwt';
+import { Request } from 'express';
+import { StudentsService } from './students/students.service';
+import { UserDeco } from './deocrators/user.decorator';
 
 
 @Controller()
 export class AppController {
   constructor(
-    private readonly appService: AppService,
-    private authService: AuthService,
-    private userService: UsersService,
     private groupService: GroupService,
-    private deptService: DepartementService) { }
+    private studentService: StudentsService,
+    private appService: AppService) { }
 
   @Get()
   getHello() {
-    return this.groupService.getGroupsByLevel(1, 114627);
+    // return this.groupService.getGroupsByLevel(1, 114627);
   }
 
   @Get("test")
-  test() {
+  async test(@Req() req: Request) {
+    console.log(req.user);
+    const test = ExtractJwt.fromAuthHeaderAsBearerToken()
+
     return this.groupService.getAll(114627);
-    // return this.authService.getPerms(114627,1);
+
+  }
+
+
+
+  @UseGuards(JwtAuthGuard)
+  @Put("status/:studentID")
+  status(@UserDeco() user, @Param() params, @Req() req: Request) {
+    console.log(params);
+    console.log(req.body.status);
+    this.studentService.setStatus(user.userId, params["studentID"], req.body.status);
+    return { "resp": "ok" };
   }
 
   @UseGuards(JwtAuthGuard)
   @Get("search/:input")
-  search(@Param() params): string {
-    return params.input;
+  search(@Param() params) {
+    console.log(params);
+
+    return this.appService.search(params.input);
   }
 
 

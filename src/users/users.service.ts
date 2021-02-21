@@ -1,11 +1,12 @@
+/* eslint-disable prefer-const */
 
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/entities/User'
-import { Departementstaff } from 'modelGen/output/entities/Departementstaff';
-import { Departementpermissionrole } from 'modelGen/output/entities/Departementpermissionrole';
-import { Departementpermission } from 'modelGen/output/entities/Departementpermission';
+import { Departementstaff } from 'src/entities/Departementstaff';
+import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
+import { Departementpermission } from 'src/entities/Departementpermission';
 
 
 @Injectable()
@@ -27,9 +28,25 @@ export class UsersService {
         return this.usersRepository.find();
     }
 
-    async findOne(ID: string): Promise<User | undefined> {
+    async findOne(ID: string, relations: string[]): Promise<User> {
+        let user;
 
-        return this.usersRepository.findOne({ where: { userId: parseInt(ID) } });
+        if (relations) {
+            
+            user = await this.usersRepository.findOne({ where: { userId: parseInt(ID) }, relations: relations });
+        } else {
+            user = await this.usersRepository.findOne({ where: { userId: parseInt(ID) } });
+        }
+        return user;
+    }
+
+    async getRoles(ID: string): Promise<any> {
+        let output = {};
+        const deptstaff = await this.StaffRepo.find({ where: { userId: parseInt(ID) }, relations: ["role", "departement"] });
+        for await (const element of deptstaff) {
+            output[element.departement.departementName] = element.role.roleName;
+        };
+        return output;
     }
 
 

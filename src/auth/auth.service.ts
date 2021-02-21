@@ -2,37 +2,33 @@
 
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { LoginResponse } from 'src/entities/DTO/DTO';
 import { User } from 'src/entities/User';
-import { Repository } from 'typeorm';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Departementstaff } from 'src/entities/Departementstaff';
-import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
-import { Departementpermission } from 'src/entities/Departementpermission';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class AuthService {
     constructor(
-        @InjectRepository(User)
-        private usersRepository: Repository<User>,
-        @InjectRepository(User)
-        private UserRepo: Repository<User>,
+        private userService: UsersService,
         private jwtService: JwtService) { }
 
-    async validateUser(ID: string, pass: string): Promise<any> {
-        const user = await this.UserRepo.findOne({ where: { userId: ID } });
+    async validateUser(ID: string, pass: string): Promise<User> {
+        const user = await this.userService.findOne(ID, null);
         if (user && user.password === pass) {
-            const { password, ...result } = user;
-            return result;
+            delete user.password;
+            return user;
         }
         return null;
     }
 
-    async login(user: any) {
-        const payload = { username: user.username, sub: user.userId };
-        return {
-            access_token: this.jwtService.sign(payload),
-        };
+    async login(body: any) {
+        const user = await this.validateUser(body.userID, body.password);
+        let output: LoginResponse;
+        if (user) {
+            const payload = { username: user.userId, sub: user.userId };
+            output = { employe: user, token: this.jwtService.sign(payload) }
+        }
+        return output;
     }
-
 
 }
