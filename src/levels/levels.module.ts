@@ -12,7 +12,10 @@ import { Departementpermissionrole } from 'src/entities/Departementpermissionrol
 import { Departementpermission } from 'src/entities/Departementpermission';
 
 @Module({
-    imports: [TypeOrmModule.forFeature([Level, Group, Departementstaff, Departementpermissionrole, Departementpermission])],
+    imports: [
+        TypeOrmModule.forFeature([Level, Group, Departementstaff, Departementpermissionrole, Departementpermission]),
+        
+    ],
     providers: [LevelsService, GroupService, PermissionsService],
     controllers: [LevelsController]
 })

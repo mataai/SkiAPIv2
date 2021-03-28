@@ -16,9 +16,7 @@ export class AuthController {
         private permsService: PermissionsService) { }
 
     @Post('login')
-    async login(@Request() req, @Res() res) {
-        console.log(req);
-        
+    async login(@Request() req, @Res() res) {        
         const output = await this.authService.login(req.body);
         if (output) {
             res.send(output);

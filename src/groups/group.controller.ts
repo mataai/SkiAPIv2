@@ -21,21 +21,9 @@ export class GroupController {
         @Req() req,
         @Query() query
     ): Promise<Group[]> {
-
-        console.log(query);
-
-        return this.groupService.getAll(user.userId, query)
-
-
-
-
+        return this.groupService.getAll(user.userId, query);
     }
 
-    // @Get("departement/:id")
-    // @UseGuards(JwtAuthGuard)
-    // GetByDeptID(@UserDeco() user, @Param() params): Promise<Group[]> {
-    //     return this.groupService.getGroupsByDepart(user.userId, params.id,);
-    // }
 
 
     @UseGuards(JwtAuthGuard)
@@ -43,15 +31,19 @@ export class GroupController {
     async GetByID(@UserDeco() user: any, @Param() params): Promise<Group> {
         let group = null;
 
-        group = await this.groupService.getByID(user.userId, params.id);
+        group = await this.groupService.getAll(user.userId, { groupId: params.id }, true);
 
         const studentsDTO = [];
-        for (const grp of group.studentgroups) {
-            const item = { ...grp, ...grp.student };
-            delete item.student;
-            studentsDTO.push(item)
-        }
-        group.studentgroups = studentsDTO;
+        console.log(group);
+
+        try {
+            for (const grp of group.studentgroups) {
+                const item = { ...grp, ...grp.student };
+                delete item.student;
+                studentsDTO.push(item)
+            }
+            group.studentgroups = studentsDTO;
+        } catch (e) { }
         return group;
     }
 

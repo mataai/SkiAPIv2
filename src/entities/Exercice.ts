@@ -14,7 +14,7 @@ export class Exercice {
   @PrimaryGeneratedColumn({ type: "int", name: "ID" })
   id: number;
 
-  @Column({type:"text"})
+  @Column({ type: "text" })
   description: string;
 
   @Column("varchar", { name: "Terrain", length: 45 })

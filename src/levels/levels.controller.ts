@@ -5,8 +5,7 @@ import { GroupService } from 'src/groups/group.service';
 import { Group } from 'src/entities/Group';
 import { User } from 'src/entities/User';
 import { UserDeco } from 'src/deocrators/user.decorator';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard'; 
 
 @Controller('levels')
 export class LevelsController {
@@ -16,10 +15,14 @@ export class LevelsController {
 
 
     @Get()
-    // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
     GetAll(): Promise<Level[]> {
 
         return this.levelsService.findAll();
+    }
+
+    @Get(':id')
+    GetOne(@Param() params: { id: number }): Promise<Level> {
+        return this.levelsService.findOne(params.id);
     }
 
     // @Get(':id/groups')
@@ -28,10 +31,5 @@ export class LevelsController {
     //     console.log(user);
     //     return this.groupService.getGroupsByLevel(user.userId, params.id);
     // }
-
-    @Get(':id')
-    GetOne(@Param() params: { id: number }): Promise<Level> {
-        return this.levelsService.findOne(params.id);
-    }
 
 }
