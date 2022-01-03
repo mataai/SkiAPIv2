@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Departementpermissionrole } from "./Departementpermissionrole";
+import { Departementpermissionrole } from "./departement_permission_role";
 
 @Entity("DepartementPermission", { schema: "ski" })
 export class Departementpermission {

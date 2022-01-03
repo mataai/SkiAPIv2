@@ -1,6 +1,6 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { Student } from "./Student";
-import { Group } from "./Group";
+import { Student } from "./student";
+import { Group } from "./group";
 
 @Index("FkIdx_StudentGroup_GroupID", ["groupId"], {})
 @Index("FkIdx_StudentGroup_StudentID", ["studentId"], {})

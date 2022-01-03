@@ -7,10 +7,10 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Departement } from "./Departement";
-import { Level } from "./Level";
-import { User } from "./User";
-import { Studentgroup } from "./Studentgroup";
+import { Departement } from "./departement";
+import { Level } from "./level";
+import { User } from "./user";
+import { Studentgroup } from "./student_group";
 
 @Index("IXFK_Groups_Levels_LevelID", ["levelId"], {})
 @Index("FK_Groups_Departement_DepartementID", ["departementId"], {})

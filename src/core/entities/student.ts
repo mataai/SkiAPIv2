@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Studentgroup } from "./Studentgroup";
+import { Studentgroup } from "./student_group";
 
 @Entity("Student", { schema: "ski" })
 export class Student {

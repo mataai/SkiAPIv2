@@ -1,5 +1,5 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Sommaireexercice } from "./Sommaireexercice";
+import { Sommaireexercice } from "./sommaire_exercice";
 
 @Entity("SommaireFinNiveau", { schema: "ski" })
 export class Sommairefinniveau {

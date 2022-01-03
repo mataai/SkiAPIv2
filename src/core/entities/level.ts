@@ -6,9 +6,9 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Departement } from "./Departement";
-import { Exercice } from "./Exercice";
-import { Group } from "./Group";
+import { Departement } from "./departement";
+import { Exercice } from "./exercice";
+import { Group } from "./group";
 
 @Entity("Level", { schema: "ski" })
 export class Level {

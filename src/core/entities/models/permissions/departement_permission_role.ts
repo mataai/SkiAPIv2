@@ -6,9 +6,9 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Departementrole } from "./Departementrole";
-import { Departement } from "./Departement";
-import { Departementpermission } from "./Departementpermission";
+import { Departementrole } from "./departement_role";
+import { Departement } from "../../departement";
+import { Departementpermission } from "./departement_permission";
 
 @Index(
   "FK_Departement_PermissionRole_Departement_DepartementID",

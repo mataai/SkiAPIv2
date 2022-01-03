@@ -3,20 +3,26 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { LevelsService } from './levels.service';
 import { LevelsController } from './levels.controller';
-import { Level } from 'src/entities/Level';
+import { Level } from 'src/core/entities/level';
 import { GroupService } from 'src/groups/group.service';
-import { Group } from 'src/entities/Group';
+import { Group } from 'src/core/entities/group';
 import { PermissionsService } from 'src/permissions/permissions.service';
-import { Departementstaff } from 'src/entities/Departementstaff';
-import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
-import { Departementpermission } from 'src/entities/Departementpermission';
-
+import { Departementpermissionrole } from 'src/core/entities/models/permissions/departement_permission_role';
+import {
+  Departementpermission,
+  Departementstaff,
+} from 'src/core/entities/models/permissions';
 @Module({
-    imports: [
-        TypeOrmModule.forFeature([Level, Group, Departementstaff, Departementpermissionrole, Departementpermission]),
-        
-    ],
-    providers: [LevelsService, GroupService, PermissionsService],
-    controllers: [LevelsController]
+  imports: [
+    TypeOrmModule.forFeature([
+      Level,
+      Group,
+      Departementstaff,
+      Departementpermissionrole,
+      Departementpermission,
+    ]),
+  ],
+  providers: [LevelsService, GroupService, PermissionsService],
+  controllers: [LevelsController],
 })
-export class LevelsModule { }
+export class LevelsModule {}

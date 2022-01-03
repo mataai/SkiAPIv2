@@ -1,5 +1,5 @@
 import { Column, Entity, Index, JoinColumn, ManyToOne } from "typeorm";
-import { Sommairefinniveau } from "./Sommairefinniveau";
+import { Sommairefinniveau } from "./sommaire_fin_niveau";
 
 @Index("FkIdx_SommaireExercice_SommaireID", ["sommaireId"], {})
 @Entity("SommaireExercice", { schema: "ski" })

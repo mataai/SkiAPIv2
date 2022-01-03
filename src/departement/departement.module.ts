@@ -3,20 +3,31 @@ import { DepartementController } from './departement.controller';
 import { DepartementService } from './departement.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
-import { Group } from 'src/entities/Group';
-import { Departement } from 'src/entities/Departement';
-import { Departementpermission } from 'src/entities/Departementpermission';
-import { User } from 'src/entities/User';
-import { Departementstaff } from 'src/entities/Departementstaff';
-import { Departementrole } from 'src/entities/Departementrole';
-import { Departementpermissionrole } from 'src/entities/Departementpermissionrole';
-import { Level } from 'src/entities/Level';
+import { Group } from 'src/core/entities/group';
+import { Departement } from 'src/core/entities/departement';
+import { User } from 'src/core/entities/user';
+import { Departementpermissionrole } from 'src/core/entities/models/permissions/departement_permission_role';
+import { Level } from 'src/core/entities/level';
+import {
+  Departementpermission,
+  Departementrole,
+  Departementstaff,
+} from 'src/core/entities/models/permissions';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, Departement, Group, Departementstaff, Departementpermission, Departementrole, Departementpermissionrole, Level]),
+    TypeOrmModule.forFeature([
+      User,
+      Departement,
+      Group,
+      Departementstaff,
+      Departementpermission,
+      Departementrole,
+      Departementpermissionrole,
+      Level,
+    ]),
   ],
   controllers: [DepartementController],
-  providers: [DepartementService]
+  providers: [DepartementService],
 })
-export class DepartementModule { }
+export class DepartementModule {}

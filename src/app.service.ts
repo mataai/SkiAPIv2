@@ -1,13 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Like, Repository } from 'typeorm';
-import { Student } from './entities/Student';
-import { Studentgroup } from './entities/Studentgroup';
-import { User } from './entities/User';
+import { Student } from './core/entities/student';
+import { Studentgroup } from './core/entities/student_group';
+import { User } from './core/entities/user';
 
 @Injectable()
 export class AppService {
-
   constructor(
     @InjectRepository(User)
     private usersRepository: Repository<User>,
@@ -15,7 +14,7 @@ export class AppService {
     private studentGrpRepository: Repository<Studentgroup>,
     @InjectRepository(Student)
     private studentRepository: Repository<Student>,
-  ) { }
+  ) {}
 
   getHello(): string {
     return 'Hello Bro!';
@@ -23,28 +22,39 @@ export class AppService {
 
   async search(input: string): Promise<any[]> {
     let output = [];
-    const students = await this.studentRepository.find({ where: [{ firstName: Like("%" + input + "%") }, { lastName: Like("%" + input + "%") }, { phone: Like("%" + input + "%") }] });
+    const students = await this.studentRepository.find({
+      where: [
+        { firstName: Like('%' + input + '%') },
+        { lastName: Like('%' + input + '%') },
+        { phone: Like('%' + input + '%') },
+      ],
+    });
 
     if (students.length > 0) {
       const studentIds = students.map(x => x.studentId);
-      const temp = await this.studentGrpRepository.find({ where: [{ studentId: In(studentIds) }], relations: ["group", "group.teacher", "student"] });
+      const temp = await this.studentGrpRepository.find({
+        where: [{ studentId: In(studentIds) }],
+        relations: ['group', 'group.teacher', 'student'],
+      });
       temp.forEach(element => {
         output.push({ ...element, ...element.student });
       });
     }
-    const test = await this.usersRepository.findOne({ where: [{ userId: Like(input + "%") }], relations: ["groups.teacher", "groups"] });
+    const test = await this.usersRepository.findOne({
+      where: [{ userId: Like(input + '%') }],
+      relations: ['groups.teacher', 'groups'],
+    });
     console.log(test);
 
     if (test) {
-      output = output.concat(test.groups)
+      output = output.concat(test.groups);
     }
 
     output.map(x => delete x.student);
-    console.log("ici");
-    
+    console.log('ici');
+
     console.log(output);
-    
+
     return output;
   }
-
 }

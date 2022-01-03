@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { User } from "./User";
+import { User } from "./user";
 
 @Index("FkIdx_Login_UserID", ["userId"], {})
 @Entity("Login", { schema: "ski" })

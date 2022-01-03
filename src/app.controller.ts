@@ -7,48 +7,47 @@ import { GroupService } from './groups/group.service';
 import { ExtractJwt } from 'passport-jwt';
 import { Request } from 'express';
 import { StudentsService } from './students/students.service';
-import { UserDeco } from './deocrators/user.decorator';
-
+import { UserDeco } from './core/deocrators/user.decorator';
 
 @Controller()
 export class AppController {
   constructor(
     private groupService: GroupService,
     private studentService: StudentsService,
-    private appService: AppService) { }
+    private appService: AppService,
+  ) {}
 
   @Get()
   getHello() {
     // return this.groupService.getGroupsByLevel(1, 114627);
   }
 
-  @Get("test")
+  @Get('test')
   async test(@Req() req: Request) {
     console.log(req.user);
-    const test = ExtractJwt.fromAuthHeaderAsBearerToken()
+    const test = ExtractJwt.fromAuthHeaderAsBearerToken();
 
     return this.groupService.getAll(114627);
-
   }
 
-
-
   @UseGuards(JwtAuthGuard)
-  @Put("status/:studentID")
+  @Put('status/:studentID')
   status(@UserDeco() user, @Param() params, @Req() req: Request) {
     console.log(params);
     console.log(req.body.status);
-    this.studentService.setStatus(user.userId, params["studentID"], req.body.status);
-    return { "resp": "ok" };
+    this.studentService.setStatus(
+      user.userId,
+      params['studentID'],
+      req.body.status,
+    );
+    return { resp: 'ok' };
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get("search/:input")
+  @Get('search/:input')
   search(@Param() params) {
     console.log(params);
 
     return this.appService.search(params.input);
   }
-
-
 }

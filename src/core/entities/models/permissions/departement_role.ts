@@ -1,6 +1,6 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Departementpermissionrole } from "./Departementpermissionrole";
-import { Departementstaff } from "./Departementstaff";
+import { Departementpermissionrole } from "./departement_permission_role";
+import { Departementstaff } from "./departement_staff";
 
 @Entity("DepartementRole", { schema: "ski" })
 export class Departementrole {

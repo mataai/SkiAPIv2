@@ -6,7 +6,7 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Level } from "./Level";
+import { Level } from "./level";
 
 @Index("FkIdx_Exercice_LevelID", ["levelId"], {})
 @Entity("Exercice", { schema: "ski" })
