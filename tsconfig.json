@@ -9,14 +9,13 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./",
+    "preserveSymlinks": true,
+    "strict": true,
     "incremental": true
   },
   "paths": {
-    "@groups/*": ["src/groups/*"],
-    "@core/*": ["src/core/*"],
-    "@dtos/*": ["src/entities/DTO/*"],
-    "@models/*": ["src/entities/models/*"],
-    
+    "~groups/*": ["src/groups/*"],
+    "~core/*": ["src/core/*"],
+    "~entities/*": ["src/core/entities/*"]
   }
 }

@@ -1,11 +1,7 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param } from '@nestjs/common';
+import { Level } from '../core/entities/models';
+import { GroupService } from '../groups/group.service';
 import { LevelsService } from './levels.service';
-import { Level } from '../core/entities/level';
-import { GroupService } from 'src/groups/group.service';
-import { Group } from 'src/core/entities/group';
-import { User } from 'src/core/entities/user';
-import { UserDeco } from 'src/core/deocrators/user.decorator';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
 @Controller('levels')
 export class LevelsController {

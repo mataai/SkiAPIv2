@@ -1,24 +1,22 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
 
 import { GroupController } from './group.controller';
 import { GroupService } from './group.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { User } from 'src/core/entities/user';
-import { Group } from 'src/core/entities/group';
-import { Departement } from 'src/core/entities/departement';
-import { Studentgroup } from 'src/core/entities/student_group';
-import { Departementpermissionrole } from 'src/core/entities/models/permissions/departement_permission_role';
-import { UsersService } from 'src/users/users.service';
-import { PermissionsModule } from 'src/permissions/permissions.module';
-import { PermissionsService } from 'src/permissions/permissions.service';
-import { DepartementService } from 'src/departement/departement.service';
-import { LevelsService } from 'src/levels/levels.service';
-import { Level } from 'src/core/entities/level';
+import { User, Departement } from '../core/entities';
+import { Group } from '../core/entities/group';
+import { Level } from '../core/entities/models';
 import {
-  Departementpermission,
   Departementstaff,
-} from 'src/core/entities/models/permissions';
+  Departementpermissionrole,
+  Departementpermission,
+} from '../core/entities/models/permissions';
+import { Studentgroup } from '../core/entities/student_group';
+import { DepartementService } from '../departement/departement.service';
+import { LevelsService } from '../levels/levels.service';
+import { PermissionsModule } from '../permissions/permissions.module';
+import { PermissionsService } from '../permissions/permissions.service';
+import { UsersService } from '../users/users.service';
 
 @Module({
   imports: [

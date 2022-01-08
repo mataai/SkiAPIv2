@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Studentgroup } from 'src/core/entities/student_group';
-import { GroupService } from 'src/groups/group.service';
-import { PermissionsService } from 'src/permissions/permissions.service';
 import { Repository } from 'typeorm';
+import { Studentgroup } from '../core/entities/student_group';
+import { GroupService } from '../groups/group.service';
+import { PermissionsService } from '../permissions/permissions.service';
 
 @Injectable()
 export class StudentsService {
@@ -25,7 +25,7 @@ export class StudentsService {
   ): Promise<boolean> {
     let output = false;
 
-    if (this.permsService.isAdmin(userID)) {
+    if (await this.permsService.isAdmin(userID)) {
       output = true;
     }
 
@@ -33,6 +33,9 @@ export class StudentsService {
       where: { studentId: studentID },
       relations: ['group'],
     });
+    if (sG === undefined) {
+      return output;
+    }
 
     const perms = await this.permsService.getPermsByDept(
       userID,

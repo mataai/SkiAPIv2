@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
-import { Level } from 'src/core/entities/level';
-import { Departement } from 'src/core/entities/departement';
+import { Departement } from '../core/entities';
+import { Level } from '../core/entities/models';
 
 @Injectable()
 export class LevelsService {
@@ -16,7 +16,7 @@ export class LevelsService {
   }
 
   async findOne(id: number): Promise<Level> {
-    return this.levelsRepository.findOne({
+    return this.levelsRepository.findOneOrFail({
       where: { levelId: id },
       relations: ['exercices'],
     });
@@ -27,19 +27,20 @@ export class LevelsService {
   }
 
   async getNextLevel(ID: number): Promise<number> {
-    return (await this.levelsRepository.findOne({ where: { levelId: ID } }))
-      .nextLevelId;
+    return (
+      await this.levelsRepository.findOneOrFail({ where: { levelId: ID } })
+    ).nextLevelId;
   }
 
   async getPrevLevel(ID: number): Promise<number> {
     return (
-      await this.levelsRepository.findOne({ where: { nextLevelIdr: ID } })
+      await this.levelsRepository.findOneOrFail({ where: { nextLevelIdr: ID } })
     ).levelId;
   }
 
   async getDepts(levelId: number): Promise<Departement[]> {
     return (
-      await this.levelsRepository.findOne({
+      await this.levelsRepository.findOneOrFail({
         where: { levelId: levelId },
         relations: ['departements'],
       })

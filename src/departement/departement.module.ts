@@ -1,18 +1,17 @@
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { Module } from '@nestjs/common';
+
 import { DepartementController } from './departement.controller';
 import { DepartementService } from './departement.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { Group } from 'src/core/entities/group';
-import { Departement } from 'src/core/entities/departement';
-import { User } from 'src/core/entities/user';
-import { Departementpermissionrole } from 'src/core/entities/models/permissions/departement_permission_role';
-import { Level } from 'src/core/entities/level';
 import {
   Departementpermission,
+  Departementpermissionrole,
   Departementrole,
   Departementstaff,
-} from 'src/core/entities/models/permissions';
+} from '../core/entities/models/permissions';
+import { User, Departement } from '../core/entities';
+import { Group } from '../core/entities/group';
+import { Level } from '../core/entities/models';
 
 @Module({
   imports: [

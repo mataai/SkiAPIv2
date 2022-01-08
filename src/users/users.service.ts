@@ -1,14 +1,12 @@
-/* eslint-disable prefer-const */
-
 import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/core/entities';
 import {
   Departementpermission,
   Departementpermissionrole,
   Departementstaff,
-} from 'src/core/entities/models/permissions';
+} from '../core/entities/models/permissions';
+import { User } from '../core/entities';
 
 @Injectable()
 export class UsersService {
@@ -27,7 +25,7 @@ export class UsersService {
     return this._usersRepo.find();
   }
 
-  public findOne(ID: string, relations: string[]): Promise<User> {
+  public findOne(ID: string, relations: string[]): Promise<User | undefined> {
     return this._usersRepo.findOne({
       where: { userId: parseInt(ID) },
       relations: relations,
@@ -36,7 +34,7 @@ export class UsersService {
 
   // TODO Refactor
   public async getRoles(ID: string): Promise<any> {
-    let output = {};
+    let output: any;
     const deptstaff = await this._staffRepo.find({
       where: { userId: parseInt(ID) },
       relations: ['role', 'departement'],

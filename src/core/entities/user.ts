@@ -1,20 +1,20 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Group } from './group';
 import { Login } from './login';
 import { Departementstaff } from './models/permissions';
 
 @Entity('User', { schema: 'ski' })
 export class User {
-  @Column('int', { primary: true, name: 'UserID' })
-  userId: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: number;
 
-  @Column('varchar', { name: 'FirstName', length: 45 })
+  @Column()
   firstName: string;
 
-  @Column('varchar', { name: 'LastName', length: 45 })
+  @Column()
   lastName: string;
 
-  @Column('varchar', { name: 'Password', length: 255 })
+  @Column()
   password: string;
 
   @OneToMany(
@@ -34,4 +34,22 @@ export class User {
     login => login.user,
   )
   logins: Login[];
+
+  constructor(
+    id: number,
+    firstName: string,
+    lastName: string,
+    password: string,
+    departementstaffs: Departementstaff[],
+    groups: Group[],
+    logins: Login[],
+  ) {
+    this.id = id;
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.password = password;
+    this.departementstaffs = departementstaffs;
+    this.groups = groups;
+    this.logins = logins;
+  }
 }

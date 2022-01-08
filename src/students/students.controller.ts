@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
+import { Request } from 'express';
 import { ExtractJwt } from 'passport-jwt';
-import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { UserDeco } from 'src/core/deocrators/user.decorator';
-import { Student } from 'src/core/entities/student';
-import { User } from 'src/core/entities/user';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { UserDeco } from '../core/deocrators/user.decorator';
+import { User } from '../core/entities';
+import { Student } from '../core/entities/student';
+
 import { StudentsService } from './students.service';
 
 @Controller('students')
@@ -15,8 +18,7 @@ export class StudentsController {
 
   @Get()
   @UseGuards(JwtAuthGuard)
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  Get(@UserDeco() user: User, @Req() req, @Query() query): Student[] {
+  Get(@UserDeco() user: User, @Req() req: Request, @Query() query: any): Student[] {
     const test = [
       { a: 1 },
       { a: 'b' },

@@ -1,10 +1,8 @@
 /* eslint-disable prefer-const */
 import { Injectable } from '@nestjs/common';
-import { Departement } from 'src/core/entities/departement';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, In } from 'typeorm';
-import { Group } from 'src/core/entities/group';
-import { Level } from 'src/core/entities/level';
+import { Departement } from '../core/entities';
 
 @Injectable()
 export class DepartementService {
@@ -17,7 +15,7 @@ export class DepartementService {
     let depts = await this.departRepository.find({
       where: { departementId: deptID },
     });
-    let levels: number[];
+    let levels: number[] = [];
     depts.forEach(element => {
       levels.push(element.departementId);
     });
@@ -25,11 +23,13 @@ export class DepartementService {
   }
 
   getAll(deptId: number): Promise<Departement> {
-    return this.departRepository.findOne({ where: { departementId: deptId } });
+    return this.departRepository.findOneOrFail({
+      where: { departementId: deptId },
+    });
   }
 
   getById(deptId: number): Promise<Departement> {
-    return this.departRepository.findOne({
+    return this.departRepository.findOneOrFail({
       where: { departementId: deptId },
       relations: [
         'levels',

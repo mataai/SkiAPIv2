@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Departementpermissionrole } from 'src/core/entities/models/permissions/departement_permission_role';
+
 import {
-  Departementpermission,
   Departementstaff,
-} from 'src/core/entities/models/permissions';
+  Departementpermissionrole,
+  Departementpermission,
+} from '../core/entities/models/permissions';
 
 @Injectable()
 export class PermissionsService {
@@ -29,7 +30,7 @@ export class PermissionsService {
 
   async getPerms(userID: number): Promise<Departementpermissionrole[]> {
     const roles = await this.StaffRepo.find({ where: { userId: userID } });
-    const roleIds = [];
+    const roleIds: number[] = [];
     roles.forEach(element => {
       roleIds.push(element.roleId);
     });

@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Group } from 'src/core/entities/group';
 import { In, MoreThanOrEqual, Repository } from 'typeorm';
+import { Group } from '../core/entities/group';
+import { LevelsService } from '../levels/levels.service';
+import { PermissionsService } from '../permissions/permissions.service';
 
-import { PermissionsService } from 'src/permissions/permissions.service';
-import { LevelsService } from 'src/levels/levels.service';
 @Injectable()
 export class GroupService {
   constructor(

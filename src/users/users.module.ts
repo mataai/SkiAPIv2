@@ -1,15 +1,15 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
-import { Level } from 'src/core/entities/level';
-import { User } from 'src/core/entities/user';
-import { Departementpermissionrole } from 'src/core/entities/models/permissions/departement_permission_role';
-import { PermissionsService } from 'src/permissions/permissions.service';
+import { User } from '../core/entities';
+import { Level } from '../core/entities/models';
 import {
   Departementpermission,
+  Departementpermissionrole,
   Departementstaff,
-} from 'src/core/entities/models/permissions';
+} from '../core/entities/models/permissions';
+import { PermissionsService } from '../permissions/permissions.service';
+
+import { UsersService } from './users.service';
 
 @Module({
   imports: [

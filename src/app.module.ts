@@ -8,9 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { GroupsModule } from './groups/groups.module';
 import { UsersModule } from './users/users.module';
 
-import { Exercice } from './core/entities/exercice';
-import { Level } from './core/entities/level';
-import { Group } from './core/entities/group';
+import { Level, Exercice } from '@core/entities/models';
+
 import { Student } from './core/entities/student';
 import { Studentgroup } from './core/entities/student_group';
 import { User } from './core/entities/user';
@@ -38,16 +37,16 @@ import {
   imports: [
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: 'web.martin',
+      host: '192.168.0.15',
       port: 3306,
       username: 'user',
       password: 'passw0rd',
       database: 'skiv2',
       entities: [
-        Studentstatus,
-        StudentGroupHistory,
         Exercice,
         Level,
+        Studentstatus,
+        StudentGroupHistory,
         Group,
         Student,
         Studentgroup,
@@ -65,10 +64,10 @@ import {
     AuthModule,
     UsersModule,
     TypeOrmModule.forFeature([
-      Studentstatus,
-      StudentGroupHistory,
       Exercice,
       Level,
+      Studentstatus,
+      StudentGroupHistory,
       Group,
       Student,
       Studentgroup,
